@@ -1,0 +1,14 @@
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-top: 20px;
+  margin-right: 20px;
+  width: 100vw;
+  max-width: 100%; /* Prevents it from exceeding screen width */
+  height: 100vh;
+  overflow: hidden;
+}
+
+

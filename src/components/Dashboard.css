@@ -1,0 +1,120 @@
+.dashboard-container {
+    flex-grow: 1; /* Expands to fill remaining space */
+    padding: 20px;
+    background: #fff;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+    min-width: calc(100vw - 250px); /* Ensures it fills space after sidebar */
+    max-width: calc(100vw - 250px);
+  }
+  
+  .dashboard-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  /* Asset Table */
+  .asset-table {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+  
+  /* Table Header & Rows */
+  .table-header,
+  .table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 0.5fr;
+    align-items: center;
+    padding: 12px 10px;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+  
+  .table-header {
+    font-weight: bold;
+    background-color: #f4f4f4;
+  }
+
+  .header-name {
+    display: flex;
+    justify-content: flex-start;
+  }
+  
+  .table-header span,
+  .table-row span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+  
+  /* Asset Info */
+  .asset-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .asset-logo {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+  }
+  
+  .asset-name {
+    font-size: 14px;
+  }
+  
+  /* Profit/Loss Styling */
+  .profit-loss {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  /* Positive & Negative Changes */
+  .positive-change {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .negative-change {
+    color: red;
+    font-weight: bold;
+  }
+  
+  /* Menu Icon */
+  .menu-icon {
+    cursor: pointer;
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  /* Responsive Grid for Smaller Screens */
+  @media (max-width: 1200px) {
+    .table-header,
+    .table-row {
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .table-header,
+    .table-row {
+      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    }
+  }
+  
+  .wallet-info {
+    background: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
