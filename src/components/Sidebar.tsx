@@ -1,6 +1,7 @@
-import Connect from "./Connect";
+// import Connect from "./Connect";
 import "./Sidebar.css";
 // import UseWallet from "../hooks/useWallet";
+import WalletComponents from "./WalletComponents"
 
 const Sidebar = () => {
   // const { account } = useWallet();
@@ -8,7 +9,7 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <div className="wallet-section">
-        <Connect />
+        <WalletComponents />
       </div>
 
       <ul className="sidebar-links">

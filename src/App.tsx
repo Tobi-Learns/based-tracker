@@ -3,25 +3,37 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
-// import { useState, useEffect } from "react";
-// import { ethers } from "ethers";
+// import { ReactNode } from 'react';
+import { WagmiProvider, createConfig, http } from 'wagmi';
+import { baseSepolia } from 'wagmi/chains';
+import { coinbaseWallet } from 'wagmi/connectors';
+// import TokenTable from "./components/TokenTable";
+ 
+const wagmiConfig = createConfig({
+  chains: [baseSepolia],
+  connectors: [
+    coinbaseWallet({
+      appName: "onchainkit",
+    }),
+  ],
+  ssr: true,
+  transports: {
+    [baseSepolia.id]: http(import.meta.env.BASE_SEPOLIA_API_URL),
+  },
+});
 
 function App() {
   return (
-    <>
-      <div>
-        <NavBar />
-      </div>
+    <WagmiProvider config={wagmiConfig}>
+    <div>
+      <NavBar />
+    </div>
 
-      <div className="container">
-        <div>
-          <Sidebar />
-        </div>
-        <div>
-          <Dashboard />
-        </div>
-      </div>
-    </>
+    <div className="container">
+      <Sidebar />
+      <Dashboard />
+    </div>
+  </WagmiProvider>
   );
 }
 

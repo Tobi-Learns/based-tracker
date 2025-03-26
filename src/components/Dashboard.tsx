@@ -1,5 +1,7 @@
 import "./Dashboard.css";
-import { useAccount, useBalance } from "wagmi";
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import { getPortfolios } from "@coinbase/onchainkit/api";
 
 interface Asset {
   name: string;
@@ -16,26 +18,52 @@ interface Asset {
 
 const Dashboard = () => {
   const { address } = useAccount();
-  const { data: balanceData } = useBalance({
-    address,
-  });
+  const [assets, setAssets] = useState<Asset[]>([]);
 
-  const ethBalance = balanceData ? parseFloat(balanceData.formatted) : 0;
+  useEffect(() => {
+    const fetchPortfolio = async () => {
+        if (!address) return;
+      
+        try {
+          const response = await getPortfolios({ addresses: [address] });
+      
+          if ("error" in response) {
+            console.error("API error:", response.error);
+            return;
+          }
+      
+          console.log("Portfolio response:", response); // ← helps a lot
+      
+          const tokens = response.portfolios?.[0]?.tokenBalances || [];
+      
+          const formattedAssets: Asset[] = tokens
+            .filter(token => token.cryptoBalance && token.decimals != null)
+            .map((token) => {
+              const amount = Number(token.cryptoBalance) / Math.pow(10, token.decimals);
+              const price = amount === 0 ? 0 : Number(token.fiatBalance) / amount;
+      
+              return {
+                name: token.name,
+                symbol: token.symbol,
+                amount,
+                price,
+                total: Number(token.fiatBalance),
+                change24h: 0,
+                avgBuy: 0,
+                profitLoss: 0,
+                profitLossPercent: 0,
+                logo: token.image || "/default.png",
+              };
+            });
+      
+          setAssets(formattedAssets);
+        } catch (err) {
+          console.error("Unexpected error:", err);
+        }
+      };
 
-  const assets: Asset[] = [
-    {
-      name: "Ethereum",
-      symbol: "ETH",
-      amount: ethBalance ?? 0,
-      change24h: 7.27,
-      price: 1862.26,
-      total: ethBalance ? ethBalance * 1862.26 : 0,
-      avgBuy: 0.2819,
-      profitLoss: 36.23,
-      profitLossPercent: 19.35,
-      logo: "./src/assets/ethlogo.png",
-    },
-  ];
+    fetchPortfolio();
+  }, [address]);
 
   return (
     <div className="dashboard-container">
@@ -62,15 +90,13 @@ const Dashboard = () => {
               </span>
             </div>
             <span>{asset.amount.toFixed(5)}</span>
-            <span className="positive-change">▲ {asset.change24h}%</span>
-            <span>${asset.price.toLocaleString()}</span>
+            <span className="neutral-change">—</span>
+            <span>${asset.price.toLocaleString(undefined, { maximumFractionDigits: 4 })}</span>
             <span>${asset.total.toFixed(2)}</span>
             <span>${asset.avgBuy.toFixed(4)}</span>
             <div className="profit-loss">
               <span>${asset.profitLoss.toFixed(2)}</span>
-              <span className="positive-change">
-                ▲ {asset.profitLossPercent}%
-              </span>
+              <span className="neutral-change">—</span>
             </div>
             <span className="menu-icon">⋮</span>
           </div>
