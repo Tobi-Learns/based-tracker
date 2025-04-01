@@ -12,19 +12,18 @@ export default function Providers({ children }: { children: ReactNode }) {
       chain={base} // add baseSepolia for testing
       config={{
         appearance: {
-          name: 'Based-Tracker',        // Displayed in modal header
+          name: "Based-Tracker", // Displayed in modal header
           logo: imgurl,
-          mode: "auto",                 // 'auto' | 'light' | 'dark'
-          theme: "custom",              // 'default' | 'base' | 'cyberpunk' | 'hacker' //
+          mode: "auto", // 'auto' | 'light' | 'dark'
+          theme: "custom", // 'default' | 'base' | 'cyberpunk' | 'hacker' //
         },
-        wallet: { 
-          display: 'modal', 
-          termsUrl: 'https://...', 
-          privacyUrl: 'https://...', 
+        wallet: {
+          display: "modal",
+          termsUrl: "https://...",
+          privacyUrl: "https://...",
         },
       }}
     >
-
       {children}
     </OnchainKitProvider>
   );
